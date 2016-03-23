@@ -1,6 +1,7 @@
 require 'open-uri'
 require 'pry'
 require 'nokogiri'
+require 'launchy'
 
 
 
@@ -93,7 +94,7 @@ class Rotoworld::CLI
         puts "Would you like to view the source? (y/n) "
         input2 = gets.strip
         if input2.downcase == "yes" || input2.downcase == "y"
-          puts post.source
+          Launchy.open(post.source)
           sleep(5)
           puts "Would you like to move on or exit?"
           input3 = gets.strip
