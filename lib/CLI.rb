@@ -65,7 +65,8 @@ class Rotoworld::CLI
         puts "Would you like to view the source? (y/n) "
         input2 = gets.strip
         if input2.downcase == "yes" || input2.downcase == "y"
-          Launchy.open(post.source)
+          binding.pry
+          Launchy.open(post.source.strip)
           sleep(5)
           puts
           ### ESPN Fantasy Football or Draftkings Prompt
