@@ -10,7 +10,8 @@ class Rotoworld::CLI
 
   attr_accessor  :title, :headline, :source, :impact, :index
 
-
+  ## Begins the Rotoworld gem by first scraping the data from the site, making Post objects from the data, 
+  ### and displaying the posts with options to read more, open site, and 
   def call
     space
     puts "Welcome to Rotoworld NFL - Player News"
@@ -30,7 +31,10 @@ class Rotoworld::CLI
     end
   end
 
-
+  ### Takes data from the Scraper class that created Post objects. Iterates through the Post all array and displays the post title
+  ### as well as a brief description of the headline. From there user is promted to view the source or move on, which opens the source
+  ### in the user's browser. After viewing the source, user has option to move on, go to ESPN Fantasy Football home page to make trade,
+  ### or go to DraftKings and make a bet. User can refresh entire program, as well as exit at any time. 
   def show_posts
 
    
@@ -48,6 +52,7 @@ class Rotoworld::CLI
       puts post.headline
       puts ""
       puts ""
+      ###Prompt to view more on the site
       puts "Would you like to read more? (y/n) "
       input = gets.strip
       if input.downcase == "yes" || input.downcase == "y"
@@ -56,13 +61,14 @@ class Rotoworld::CLI
         puts post.impact
         puts ""
         puts ""
-
+        ##### Source Prompt
         puts "Would you like to view the source? (y/n) "
         input2 = gets.strip
         if input2.downcase == "yes" || input2.downcase == "y"
           Launchy.open(post.source)
           sleep(5)
-          puts 
+          puts
+          ### ESPN Fantasy Football or Draftkings Prompt
           puts "Would you like to move on or exit? Or type fantasy to make a trade! Or type bet to go to DraftKings!"
           input3 = gets.strip
           if input3.downcase == "exit"
@@ -98,7 +104,7 @@ class Rotoworld::CLI
 
     end
   end
-
+  #### Creates blank space for aesthetic appeal
   def space
     20.times do
       puts ""

@@ -9,6 +9,11 @@ require 'launchy'
 class Rotoworld::Scraper
 
   attr_accessor :title, :headline, :source, :impact, :index
+  
+
+
+  ### Scrapes Rotoworld NFL Players news feed to provide a list of posts with the attributes of title, headline, source, impact statement,
+  ### and an index number to display with the post. 
   def get_posts 
 
 
