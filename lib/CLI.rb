@@ -15,55 +15,21 @@ class Rotoworld::CLI
     space
     puts "Welcome to Rotoworld NFL - Player News"
     puts "______________________________________"
-    get_posts
+    Rotoworld::Scraper.new.get_posts
     show_posts
 
-    
-
-
-    puts "Would you like to read again or exit?"
+    puts "Would you like to refresh or exit?"
     input = gets.strip
-    if input.downcase == "read" || input == "read again"
+    if input.downcase == "refresh"
       call
     elsif input.downcase == "exit"
+      system("clear")
       puts "Thanks for visiting."
+      sleep(5)
       
     end
   end
 
-
-  def get_posts 
-
-
-    doc = Nokogiri::HTML(open("http://www.rotoworld.com/playernews/nfl/football-player-news/?ls=roto:nfl:gnav&rw=1"))
-    player_set = doc.css("div.RW_pn div.pb")
-    index = 1
-
-
-    player_set.each do |player|
-
-      post = Rotoworld::Post.new
-
-      post_title_info = player.css("div.headline div.player").text
-      player_name = player.css("div.headline div.player a").text
-      player_position_team = post_title_info.match(/- .+\s+-+\s+.+[st$]/)
-      post_title = "#{player_name}#{player_position_team}"
-      post.title = post_title
-      post_short = player.css("div.report p").text
-      post.headline = post_short
-      post_long = player.css("div.impact").first.text.strip
-      post.impact = post_long
-      post_source = player.css("div.info div.source a").attr("href").value
-      post.source = post_source
-      post.index = index
-      index +=1
-   
-    end
-    
-
-    
-
-  end
 
   def show_posts
 
@@ -96,20 +62,25 @@ class Rotoworld::CLI
         if input2.downcase == "yes" || input2.downcase == "y"
           Launchy.open(post.source)
           sleep(5)
-          puts "Would you like to move on or exit?"
+          puts 
+          puts "Would you like to move on or exit? Or type fantasy to make a trade! Or type bet to go to DraftKings!"
           input3 = gets.strip
-          if input3 == "exit"
+          if input3.downcase == "exit"
             break
-          elsif input3 == "move on"
+          elsif input3.downcase == "fantasy"
+            Launchy.open("http://games.espn.go.com/frontpage/football")
+          elsif input3.downcase == "bet"
+            Launchy.open("https://www.draftkings.com/")
+          elsif input3.downcase == "move on"
             nil
-          elsif input3 == "refresh"
+          elsif input3.downcase == "refresh"
             call
           else
             nil
           end
-        elsif input2 == "refresh"
+        elsif input2.downcase == "refresh"
           call
-        elsif input2 == "exit"
+        elsif input2.downcase == "exit"
           break
         end
         
@@ -135,3 +106,6 @@ class Rotoworld::CLI
   end
 
 end
+
+
+
