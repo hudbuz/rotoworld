@@ -1,5 +1,4 @@
 require 'open-uri'
-require 'pry'
 require 'nokogiri'
 require 'launchy'
 
@@ -65,25 +64,42 @@ class Rotoworld::CLI
         puts "Would you like to view the source? (y/n) "
         input2 = gets.strip
         if input2.downcase == "yes" || input2.downcase == "y"
-          
-          Launchy.open(post.source.strip)
-          sleep(5)
-          puts
-          ### ESPN Fantasy Football or Draftkings Prompt
-          puts "Would you like to move on or exit? Or type fantasy to make a trade! Or type bet to go to DraftKings!"
-          input3 = gets.strip
-          if input3.downcase == "exit"
-            break
-          elsif input3.downcase == "fantasy"
-            Launchy.open("http://games.espn.go.com/frontpage/football")
-          elsif input3.downcase == "bet"
-            Launchy.open("https://www.draftkings.com/")
-          elsif input3.downcase == "move on"
-            nil
-          elsif input3.downcase == "refresh"
-            call
+          if post.source != nil
+            Launchy.open(post.source.strip)
+            sleep(5)
+            puts
+            ### ESPN Fantasy Football or Draftkings Prompt
+            puts "Would you like to move on or exit? Or type fantasy to make a trade! Or type bet to go to DraftKings!"
+            input3 = gets.strip
+            if input3.downcase == "exit"
+              break
+            elsif input3.downcase == "fantasy"
+              Launchy.open("http://games.espn.go.com/frontpage/football")
+            elsif input3.downcase == "bet"
+              Launchy.open("https://www.draftkings.com/")
+            elsif input3.downcase == "move on"
+              nil
+            elsif input3.downcase == "refresh"
+              call
+            else
+              nil
+            end
           else
-            nil
+            puts "Source does not exist. Would you like to move on or exit? Or type fantasy to make a trade! Or type bet to go to DraftKings!"
+            input3 = gets.strip
+            if input3.downcase == "exit"
+              break
+            elsif input3.downcase == "fantasy"
+              Launchy.open("http://games.espn.go.com/frontpage/football")
+            elsif input3.downcase == "bet"
+              Launchy.open("https://www.draftkings.com/")
+            elsif input3.downcase == "move on"
+              nil
+            elsif input3.downcase == "refresh"
+              call
+            else
+              nil
+            end
           end
         elsif input2.downcase == "refresh"
           call

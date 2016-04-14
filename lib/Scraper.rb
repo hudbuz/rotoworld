@@ -1,5 +1,5 @@
 require 'open-uri'
-require 'pry'
+
 require 'nokogiri'
 require 'launchy'
 
@@ -32,7 +32,13 @@ class Rotoworld::Scraper
       post.title = "#{player_name}#{player_position_team}"
       post.headline = player.css("div.report p").text
       post.impact = player.css("div.impact").first.text.strip
-      post.source = player.css("div.info div.source a").attr("href").value
+     
+      if player.css("div.info div.source").text != ""
+        post.source = player.css("div.info div.source a").attr("href").value
+      else
+        post.source = nil
+      end
+
       post.index = index
       index +=1
    
